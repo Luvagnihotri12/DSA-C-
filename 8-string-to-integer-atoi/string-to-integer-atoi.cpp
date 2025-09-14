@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0, n = s.length();
+        // Skip leading whitespaces
+        while (i < n && s[i] == ' ') i++;
+
+        // Handle sign
+        int sign = 1;
+        if (i < n && (s[i] == '+' || s[i] == '-')) {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+
+        // Convert digits to integer
+        long result = 0;
+        while (i < n && isdigit(s[i])) {
+            result = result * 10 + (s[i] - '0');
+            // Clamp to 32-bit signed integer range
+            if (sign * result >= INT_MAX) return INT_MAX;
+            if (sign * result <= INT_MIN) return INT_MIN;
+            i++;
+        }
+
+        return static_cast<int>(sign * result);
+    }
+};
